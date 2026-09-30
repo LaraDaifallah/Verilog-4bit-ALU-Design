@@ -1,0 +1,19 @@
+module alu_behavioral(input [3:0] a,b, input [2:0] op ,output reg [3:0] Cout);
+
+wire [3:0] wiAnd,wiOr,wiAdd,wiSub;
+wire cout_add,cout_sub;
+//call the previous operation (instantiation)
+bitwise_and ( a,b,wiAnd);
+bitwise_or (a,b,wiOr);
+addition_code (a,b,1'b0,cout_add,wiAdd); // Addition
+subtraction_code (a,b,1'b1,cout_sub,wiSub); // Subtraction
+always @(*) begin // @(*) is @(a,b,cin)
+    case (op)
+            3'b000: Cout = wiSub; // for subtraction
+            3'b001: Cout = wiAdd; // for addition
+            3'b010: Cout = wiOr;   // for bitwise OR
+            3'b011: Cout = wiAnd;  // for bitwise AND
+            default: Cout = 4'bzzzz;  // for don't care when op is greater than 3
+endcase
+end
+endmodule 

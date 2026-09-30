@@ -1,0 +1,13 @@
+module alu_dataflow(input [3:0]a,b ,input [2:0]op,output cout_add,cout_sub ,output [3:0]result );
+wire [3:0] w_OR,w_AND,w_ADD,w_SUB;
+bitwise_and (a,b ,w_AND );
+bitwise_or  (a,b ,w_OR);
+addition_code (a,b ,1'b0 ,cout_add ,w_ADD);//addition
+subtraction_code (a,b ,1'b1 ,cout_sub ,w_SUB);//subtraction
+assign result = (op==3'b000)? w_SUB:
+	            (op==3'b001)? w_ADD:
+	            (op==3'b010)? w_OR:
+	            (op==3'b011)? w_AND: 3'bz;
+	            //z:(don't care)
+	            //else don't care 
+endmodule 
